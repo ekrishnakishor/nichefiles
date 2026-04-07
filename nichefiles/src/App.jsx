@@ -10,7 +10,7 @@ function App() {
     <Router>
       <div className="app-container">
         <Header />
-        <main style={{ padding: '2rem' }}>
+        <main style={{ padding: '0rem 2rem' }}>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/read/:slug" element={<Read />} />

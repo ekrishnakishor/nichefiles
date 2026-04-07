@@ -1,5 +1,5 @@
 .heroSection {
-  min-height: calc(100vh - 90px); /* Takes up full screen minus header */
+  min-height: calc(100vh - 90px);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -7,9 +7,17 @@
   padding: 0 5%;
 }
 
-/* This clamp function makes the text MASSIVE on desktop, but scales down safely on mobile */
+.latestIndicator {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 .heroTitle {
-  font-size: clamp(3rem, 8vw, 7rem); 
+  font-size: clamp(2.4rem, 8vw, 7rem);
   font-weight: 700;
   line-height: 1.1;
   letter-spacing: -0.04em;
@@ -35,6 +43,7 @@
   justify-content: center;
   gap: 1rem;
   margin-bottom: 3rem;
+  transition: all 0.3s ease;
 }
 
 .cardGrid {
@@ -45,11 +54,58 @@
   margin: 0 auto;
 }
 
-.latestIndicator {
-  font-size: 1.25rem;
-  font-weight: 700;
-  margin-bottom: 1.5rem; /* Gives it breathing room above the big title */
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+@media (max-width: 768px) {
+  .heroSection {
+    min-height: 75vh;
+    padding: 0 1.5rem;
+  }
+
+  .latestIndicator {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  /* Compact Scrolling Category Bar */
+  .categoryBar {
+    justify-content: flex-start;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding: 0.5rem 0;
+    margin-bottom: 2rem;
+    -webkit-overflow-scrolling: touch; /* Smooth scroll on iOS */
+    scrollbar-width: none; /* Hide scrollbar Firefox */
+  }
+
+  .categoryBar::-webkit-scrollbar {
+    display: none; /* Hide scrollbar Chrome/Safari */
+  }
+
+  .categoryBar button {
+    flex: 0 0 auto; /* Prevent buttons from shrinking */
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  /* Horizontal Snap-Scroll for Cards */
+  .cardGrid {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 1.2rem;
+    padding: 0 0.5rem 1.5rem 0.5rem;
+    scrollbar-width: none;
+  }
+
+  .cardGrid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .cardGrid > div {
+    min-width: 85vw;
+    scroll-snap-align: center;
+  }
+
+  .scrollSection {
+    padding: 2.5rem 1rem;
+  }
 }

@@ -7,7 +7,8 @@
   background-color: var(--bg-color);
 }
 
-.left, .right {
+.left,
+.right {
   display: flex;
   align-items: center;
   gap: 1.5rem;
@@ -35,8 +36,8 @@
 .brandContainer {
   border: 2px solid var(--text-color);
   padding: 0.4rem 1.2rem;
-  border-radius: 999px; 
-  box-shadow: 3px 3px 0px var(--text-color); 
+  border-radius: 999px;
+  box-shadow: 3px 3px 0px var(--text-color);
   cursor: pointer;
   background-color: var(--bg-color);
   transition: transform 0.1s ease;
@@ -58,4 +59,18 @@
   background-color: var(--highlight-color);
   padding: 0 0.1rem;
   color: var(--text-color);
+}
+
+@media (max-width: 768px) {
+  .header {
+    padding: 1rem;
+  }
+
+  .brandText {
+    font-size: 1rem; /* Smaller logo on mobile */
+  }
+
+  .menu {
+    gap: 0.5rem;
+  }
 }
