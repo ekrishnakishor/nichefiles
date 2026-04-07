@@ -31,7 +31,7 @@ export default function Header() {
               Show all posts
             </Link>
             <a
-              href="http://localhost:3333"
+              href="https://nichefiles-blog.sanity.studio/"
               target="_blank"
               rel="noreferrer"
               className={styles.menuLink}
