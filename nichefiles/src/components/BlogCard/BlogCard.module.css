@@ -1,0 +1,49 @@
+.card {
+  border: 2px solid var(--border-color);
+  border-radius: 12px; /* Smoother corners like your reference */
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  background-color: var(--bg-color);
+  box-shadow: 4px 4px 0px var(--border-color); /* Matches the elevated header */
+  transition: transform 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+}
+
+.tag {
+  align-self: flex-start;
+  border: 1px solid var(--border-color);
+  padding: 0.2rem 0.8rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  background-color: var(--highlight-color);
+  display: inline;
+  width: fit-content;
+  line-height: 1.4;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px dashed var(--border-color);
+}
+
+.metrics {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.85rem;
+  opacity: 0.8;
+}

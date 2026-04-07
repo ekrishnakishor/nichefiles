@@ -1,0 +1,61 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 2rem;
+  border-bottom: 2px solid var(--border-color);
+  background-color: var(--bg-color);
+}
+
+.left, .right {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.menu {
+  display: flex;
+  gap: 1rem;
+}
+
+.menuLink {
+  text-decoration: none;
+  color: var(--text-color);
+  font-weight: 700;
+  border: 1px solid transparent;
+  padding: 0.2rem 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.menuLink:hover {
+  border: 1px dashed var(--text-color);
+}
+
+/* The Brand Pill Container */
+.brandContainer {
+  border: 2px solid var(--text-color);
+  padding: 0.4rem 1.2rem;
+  border-radius: 999px; 
+  box-shadow: 3px 3px 0px var(--text-color); 
+  cursor: pointer;
+  background-color: var(--bg-color);
+  transition: transform 0.1s ease;
+  width: fit-content; /* Prevents it from stretching */
+}
+
+.brandContainer:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0px var(--text-color);
+}
+
+.brandText {
+  font-weight: 700;
+  font-size: 1.25rem;
+  user-select: none;
+}
+
+.highlightF {
+  background-color: var(--highlight-color);
+  padding: 0 0.1rem;
+  color: var(--text-color);
+}

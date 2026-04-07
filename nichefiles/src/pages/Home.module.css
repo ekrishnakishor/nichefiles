@@ -1,0 +1,55 @@
+.heroSection {
+  min-height: calc(100vh - 90px); /* Takes up full screen minus header */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 0 5%;
+}
+
+/* This clamp function makes the text MASSIVE on desktop, but scales down safely on mobile */
+.heroTitle {
+  font-size: clamp(3rem, 8vw, 7rem); 
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.04em;
+  margin-bottom: 2rem;
+  max-width: 1200px;
+}
+
+.heroMetrics {
+  display: flex;
+  gap: 2rem;
+  margin-top: 2rem;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.scrollSection {
+  padding: 4rem 5%;
+  border-top: 2px solid var(--border-color);
+}
+
+.categoryBar {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 3rem;
+}
+
+.cardGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.latestIndicator {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem; /* Gives it breathing room above the big title */
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}

@@ -1,0 +1,41 @@
+/* index.css */
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+:root {
+  /* Default Colors - These will be updated by your Theme Playground later */
+  --bg-color: #f8f9fa; /* Off-white background */
+  --text-color: #111111; /* Near black */
+  --highlight-color: #ffd54f; /* The yellow highlight */
+  --border-color: #111111;
+  --font-mono: 'Space Mono', monospace;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-mono);
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Base button styling to match the brutalist feel */
+button {
+  font-family: var(--font-mono);
+  background: transparent;
+  color: var(--text-color);
+  border: 2px solid var(--text-color);
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+button:hover {
+  background: var(--text-color);
+  color: var(--bg-color);
+}
