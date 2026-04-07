@@ -1,0 +1,94 @@
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 6rem; /* Added more padding at the bottom of the page */
+}
+
+.backButton {
+  display: inline-block; /* CRITICAL: Forces the <a> tag to respect margins and push content down */
+  margin-bottom: 3rem; /* Huge gap between button and the meta data */
+  text-decoration: none;
+  font-weight: bold;
+  border: 1px solid var(--text-color);
+  padding: 0.6rem 1.2rem;
+  color: var(--text-color);
+  transition: all 0.2s ease;
+}
+
+.backButton:hover {
+  background: var(--text-color);
+  color: var(--bg-color);
+}
+
+.article {
+  margin-bottom: 5rem; /* Massive gap before the "More Posts" section starts */
+}
+
+.meta {
+  display: flex;
+  gap: 1.5rem;
+  opacity: 0.6;
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem; /* Gap between the tags and the giant title */
+  align-items: center;
+}
+
+.tag {
+  border: 1px solid var(--text-color);
+  padding: 0.2rem 0.8rem;
+  border-radius: 50px;
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.postTitle {
+  font-size: clamp(2.5rem, 6vw, 4rem); /* Scales beautifully on mobile and desktop */
+  line-height: 1.1;
+  margin-bottom: 2.5rem; /* Gap between title and the actual reading content */
+}
+
+.content {
+  font-size: 1.15rem;
+  line-height: 1.8;
+  white-space: pre-wrap; /* Keeps your paragraphs perfectly spaced */
+}
+
+/* --- SUGGESTIONS SECTION --- */
+
+.otherPosts {
+  border-top: 2px solid var(--border-color);
+  padding-top: 3rem; /* Gap inside the border */
+}
+
+.otherPosts h3 {
+  font-size: 1.5rem;
+  margin-bottom: 2rem; /* Gap between "More from..." and the cards */
+}
+
+.suggestionGrid {
+  display: grid;
+  /* THE FIX: We reduced the minmax from 300px to 220px. 
+     This forces the grid to make the cards noticeably smaller! */
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.5rem;
+}
+
+/* Make sure mobile still looks good */
+@media (max-width: 768px) {
+  .suggestionGrid {
+    /* If you want the horizontal scroll here too, you can use the flex code from Home.module.css! */
+    display: flex; 
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 1rem;
+    padding-bottom: 1rem;
+    scrollbar-width: none;
+  }
+  .suggestionGrid::-webkit-scrollbar {
+    display: none;
+  }
+  .suggestionGrid > div {
+    min-width: 80vw;
+    scroll-snap-align: center;
+  }
+}

@@ -21,7 +21,7 @@ export default {
       name: 'category',
       title: 'Category',
       type: 'reference',
-      to: { type: 'category' },
+      to: {type: 'category'},
     },
     {
       name: 'publishedAt',
@@ -33,8 +33,8 @@ export default {
       title: 'Body',
       type: 'array',
       of: [
-        { type: 'block' }, // Standard text formatting
-        { type: 'code' },  // For code snippets (we'll need to install a plugin for this next)
+        {type: 'block'}, // Standard text formatting
+        {type: 'code'}, // For code snippets (we'll need to install a plugin for this next)
         {
           name: 'embeddedImage',
           title: 'Embedded Image URL',
@@ -50,10 +50,17 @@ export default {
               name: 'alt',
               title: 'Alternative Text',
               type: 'string',
-            }
-          ]
-        }
+            },
+          ],
+        },
       ],
+    },
+    {
+      name: 'views',
+      title: 'Views',
+      type: 'number',
+      initialValue: 0,
+      readOnly: true, // Prevents you from accidentally changing it in the Studio
     },
   ],
 }

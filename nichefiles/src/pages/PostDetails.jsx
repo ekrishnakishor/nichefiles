@@ -1,19 +1,19 @@
-// src/pages/Read.jsx
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { client } from '../client';
 import BlogCard from '../components/BlogCard/BlogCard';
-import styles from './PostDetails.module.css'; // Using your existing CSS file
+import styles from './PostDetail.module.css';
 
-export default function Read() {
+export default function PostDetail() {
   const { slug } = useParams();
   const [post, setPost] = useState(null);
-  const [suggestions, setSuggestions] = useState([]);
+  const [otherPosts, setOtherPosts] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // Query to fetch the specific post AND 3 other recent posts
     const query = `{
-      "currentPost": *[_type == "post" && slug.current == $slug][0] {
+      "mainPost": *[_type == "post" && slug.current == $slug][0] {
         _id,
         title,
         publishedAt,
@@ -22,7 +22,7 @@ export default function Read() {
         "bodyText": pt::text(body),
         views
       },
-      "morePosts": *[_type == "post" && slug.current != $slug] | order(_createdAt desc) [0...2] {
+      "morePosts": *[_type == "post" && slug.current != $slug] | order(_createdAt desc) [0...3] {
         _id,
         title,
         "slug": slug.current,
@@ -34,45 +34,50 @@ export default function Read() {
 
     client.fetch(query, { slug })
       .then((data) => {
-        setPost(data.currentPost);
-        setSuggestions(data.morePosts);
+        setPost(data.mainPost);
+        setOtherPosts(data.morePosts);
         setLoading(false);
-        window.scrollTo(0, 0); 
+        window.scrollTo(0, 0); // Scroll to top when post loads
       })
       .catch(console.error);
   }, [slug]);
 
-  if (loading) return <div className={styles.container}>Loading...</div>;
+  if (loading) return <div className={styles.container}>Loading post...</div>;
   if (!post) return <div className={styles.container}>Post not found.</div>;
 
   return (
     <div className={styles.container}>
-      <Link to="/" className={styles.backButton}>← Back</Link>
+      {/* Back Button */}
+      <Link to="/" className={styles.backButton}>
+        ← Back to home
+      </Link>
 
       <article className={styles.article}>
         <div className={styles.meta}>
-          <span className={styles.tag}>{post.category}</span>
+          <span className={styles.categoryTag}>{post.category}</span>
           <span>{new Date(post.publishedAt).toLocaleDateString()}</span>
-          <span>👁 {post.views || 0} views</span>
         </div>
 
-        <h1 className={styles.postTitle}>{post.title}</h1>
+        <h1 className={styles.title}>{post.title}</h1>
         
+        {/* We will handle the Body rendering in the next step */}
         <div className={styles.content}>
           {post.bodyText} 
         </div>
       </article>
 
-      <section className={styles.otherPosts}>
-        <h3>More from nicheFiles</h3>
-        <div className={styles.suggestionGrid}>
-          {suggestions.map((p) => (
+      {/* "Other Posts" Section */}
+      <section className={styles.suggestions}>
+        <h3 className={styles.suggestionTitle}>Keep Reading</h3>
+        <div className={styles.grid}>
+          {otherPosts.map((p) => (
             <BlogCard 
               key={p._id}
               title={p.title}
               category={p.category}
-              excerpt={p.bodyText?.substring(0, 100) + '...'}
+              excerpt={p.bodyText?.substring(0, 80) + '...'}
               views={p.views || 0}
+              // This is where you'd link to the other posts
             />
           ))}
         </div>

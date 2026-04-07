@@ -2,17 +2,48 @@ import { useState, useEffect } from 'react';
 import { client } from '../client';
 import BlogCard from '../components/BlogCard/BlogCard';
 import styles from './Home.module.css';
+import { useNavigate } from 'react-router-dom';
 
 export default function Home() {
   const [posts, setPosts] = useState([]);
   const [categories, setCategories] = useState(['All']);
   const [activeCategory, setActiveCategory] = useState('All');
   const [loading, setLoading] = useState(true);
+  
+  // Initialize navigation
+  const navigate = useNavigate();
+
+  // Updated Function: Now handles views AND navigation
+  const handleReadMore = async (postId, slug) => {
+    try {
+      // 1. Update views in Sanity
+      await client
+        .patch(postId)
+        .setIfMissing({ views: 0 })
+        .inc({ views: 1 })
+        .commit();
+      
+      // 2. Update local state for immediate feedback
+      setPosts((prevPosts) =>
+        prevPosts.map((post) =>
+          post._id === postId ? { ...post, views: (post.views || 0) + 1 } : post
+        )
+      );
+
+      // 3. Navigate to the post detail page
+      navigate(`/read/${slug}`);
+    } catch (err) {
+      console.error("Failed to update view count:", err.message);
+      // Navigate even if the view update fails so user experience isn't broken
+      navigate(`/read/${slug}`);
+    }
+  };
 
   useEffect(() => {
     const postsQuery = `*[_type == "post"] | order(_createdAt desc) {
       _id,
       title,
+      views,
       "slug": slug.current,
       "category": category->title,
       "bodyText": pt::text(body) 
@@ -37,28 +68,29 @@ export default function Home() {
 
   if (loading) return <div style={{ padding: '2rem' }}>Loading the void...</div>;
 
-  // 1. Filter the posts for the grid based on the active category
   const displayedPosts = activeCategory === 'All' 
     ? posts 
     : posts.filter(post => post.category === activeCategory);
 
-  // 2. The Fix: The Banner ALWAYS looks at the master `posts` array, never the filtered one!
   const latestPost = posts[0];
-  
-  // 3. Grid gets the filtered posts.
   const gridPosts = displayedPosts;
 
   return (
     <div>
-      {/* GLOBAL HERO BANNER (Locks to the absolute newest post overall) */}
+      {/* GLOBAL HERO BANNER */}
       {latestPost && (
         <section className={styles.heroSection}>
           <div className={styles.latestIndicator}>⚡️ Latest</div>
           <h1 className={styles.heroTitle}>{latestPost.title}</h1>
-          <button style={{ fontSize: '1.2rem', padding: '0.8rem 1.5rem' }}>Read more</button>
+          <button 
+            onClick={() => handleReadMore(latestPost._id, latestPost.slug)}
+            style={{ fontSize: '1.2rem', padding: '0.8rem 1.5rem' }}
+          >
+            Read more
+          </button>
           
           <div className={styles.heroMetrics}>
-            <span>👁 0 views</span>
+            <span>👁 {latestPost.views || 0} views</span>
             <span>{latestPost.bodyText ? latestPost.bodyText.split(/\s+/).length : 0} words</span>
           </div>
         </section>
@@ -67,7 +99,6 @@ export default function Home() {
       {/* SCROLL SECTION */}
       <section className={styles.scrollSection}>
         
-        {/* Category Bar */}
         <div className={styles.categoryBar}>
           {categories.map((cat) => (
             <button 
@@ -83,7 +114,6 @@ export default function Home() {
           ))}
         </div>
 
-        {/* Dynamic Grid */}
         {gridPosts.length === 0 ? (
           <div style={{ textAlign: 'center', margin: '6rem 0', opacity: 0.6 }}>
             <span style={{ fontSize: '4rem', display: 'block', margin: '0 auto 1rem' }}>📭</span>
@@ -103,7 +133,8 @@ export default function Home() {
                   category={post.category}
                   excerpt={excerpt}
                   words={wordCount}
-                  views={0}
+                  views={post.views || 0}
+                  onReadMore={() => handleReadMore(post._id, post.slug)}
                 />
               );
             })}
