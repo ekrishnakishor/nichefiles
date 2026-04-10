@@ -1,9 +1,9 @@
 // src/pages/Read.jsx
-import { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { client } from '../client';
-import BlogCard from '../components/BlogCard/BlogCard';
-import styles from './Read.module.css'; 
+import { useState, useEffect } from "react";
+import { useParams, Link } from "react-router-dom";
+import { client } from "../client";
+import BlogCard from "../components/BlogCard/BlogCard";
+import styles from "./Read.module.css";
 
 export default function Read() {
   const { slug } = useParams();
@@ -33,21 +33,25 @@ export default function Read() {
       }
     }`;
 
-    client.fetch(query, { slug })
+    client
+      .fetch(query, { slug })
       .then((data) => {
         setPost(data.currentPost);
         setSuggestions(data.morePosts);
         setLoading(false);
-        window.scrollTo(0, 0); // Scroll to top on load
+        window.scrollTo(0, 0);
 
-        // 2. Increment the view count in the background!
+        // THE NEW API CALL!
         if (data.currentPost && data.currentPost._id) {
-          client
-            .patch(data.currentPost._id)
-            .setIfMissing({ views: 0 })
-            .inc({ views: 1 })
-            .commit()
-            .catch((err) => console.error("Failed to update view count:", err));
+          fetch("/api/increment-views", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ postId: data.currentPost._id }),
+          })
+            .then((res) => {
+              if (!res.ok) console.error("API failed to update views");
+            })
+            .catch((err) => console.error("Network error:", err));
         }
       })
       .catch((error) => {
@@ -61,7 +65,9 @@ export default function Read() {
 
   return (
     <div className={styles.container}>
-      <Link to="/" className={styles.backButton}>← Back</Link>
+      <Link to="/" className={styles.backButton}>
+        ← Back
+      </Link>
 
       <article className={styles.article}>
         <div className={styles.meta}>
@@ -72,10 +78,8 @@ export default function Read() {
         </div>
 
         <h1 className={styles.postTitle}>{post.title}</h1>
-        
-        <div className={styles.content}>
-          {post.bodyText} 
-        </div>
+
+        <div className={styles.content}>{post.bodyText}</div>
       </article>
 
       <section className={styles.otherPosts}>
@@ -84,16 +88,16 @@ export default function Read() {
           {suggestions.map((p) => {
             const wordCount = p.bodyText ? p.bodyText.split(/\s+/).length : 0;
             return (
-              <BlogCard 
+              <BlogCard
                 key={p._id}
                 title={p.title}
                 category={p.category}
-                excerpt={p.bodyText?.substring(0, 100) + '...'}
+                excerpt={p.bodyText?.substring(0, 100) + "..."}
                 words={wordCount}
                 views={p.views || 0}
-                onReadMore={() => window.location.href = `/read/${p.slug}`}
+                onReadMore={() => (window.location.href = `/read/${p.slug}`)}
               />
-            )
+            );
           })}
         </div>
       </section>
