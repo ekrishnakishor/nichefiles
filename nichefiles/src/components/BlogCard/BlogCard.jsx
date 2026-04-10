@@ -1,7 +1,8 @@
 import React from 'react';
 import styles from './BlogCard.module.css';
 
-const BlogCard = ({ title, excerpt, category, views, words }) => {
+// 1. Add 'onReadMore' to the list of props here
+const BlogCard = ({ title, excerpt, category, views, words, onReadMore }) => {
   return (
     <div className={styles.card}>
       {category && <div className={styles.tag}>{category}</div>}
@@ -10,7 +11,9 @@ const BlogCard = ({ title, excerpt, category, views, words }) => {
       <p>{excerpt}</p>
       
       <div className={styles.actions}>
-        <button>Read more</button>
+        {/* 2. Attach the click event to the button */}
+        <button onClick={onReadMore}>Read more</button>
+        
         <div className={styles.metrics}>
           <span>👁 {views} views</span>
           <span>{words} words</span>
