@@ -8,7 +8,7 @@ export default function Header() {
   const handleBrandClick = () => {
     if (!isAdmin) {
       const password = window.prompt("Enter password to enter writing mode:");
-      if (password === import.meta.env.ADMIN_API_PASSWORD) {
+      if (password === import.meta.env.VITE_ADMIN_PASSWORD) {
         setIsAdmin(true);
       } else if (password !== null) {
         alert("Incorrect password.");
