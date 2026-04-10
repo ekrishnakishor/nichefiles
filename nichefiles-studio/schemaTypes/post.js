@@ -28,13 +28,22 @@ export default {
       title: 'Published at',
       type: 'datetime',
     },
+    // The newly registered views field!
+    {
+      name: 'views',
+      title: 'Page Views',
+      type: 'number',
+      initialValue: 0,
+      readOnly: true, 
+      description: 'Number of times this post has been viewed.',
+    },
     {
       name: 'body',
       title: 'Body',
       type: 'array',
       of: [
-        { type: 'block' }, // Standard text formatting
-        { type: 'code' },  // For code snippets (we'll need to install a plugin for this next)
+        { type: 'block' }, 
+        { type: 'code' },  
         {
           name: 'embeddedImage',
           title: 'Embedded Image URL',
