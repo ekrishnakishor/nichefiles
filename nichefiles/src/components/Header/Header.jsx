@@ -1,9 +1,38 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import styles from "./Header.module.css";
 
 export default function Header() {
   const [isAdmin, setIsAdmin] = useState(false);
+  const [commitCount, setCommitCount] = useState("..."); // Added state for commits
+
+  useEffect(() => {
+    // Fetch commit count from GitHub API
+    const fetchCommits = async () => {
+      try {
+        // 👉 REPLACE THESE with your actual GitHub username and repository name!
+        const response = await fetch(
+          "https://api.github.com/repos/ekrishnakishor/nichefiles/commits?per_page=1"
+        );
+        
+        const linkHeader = response.headers.get("link");
+        if (linkHeader) {
+          const match = linkHeader.match(/page=(\d+)>; rel="last"/);
+          if (match) {
+            setCommitCount(match[1]);
+          }
+        } else {
+          const data = await response.json();
+          setCommitCount(data.length);
+        }
+      } catch (error) {
+        console.error("Failed to fetch commits", error);
+        setCommitCount("?");
+      }
+    };
+
+    fetchCommits();
+  }, []);
 
   const handleBrandClick = () => {
     if (!isAdmin) {
@@ -21,7 +50,9 @@ export default function Header() {
   return (
     <header className={styles.header}>
       <div className={styles.left}>
-        <span style={{ fontSize: "1.5rem", fontWeight: "bold" }}></span>
+        <span style={{ fontSize: "0.9rem", fontWeight: "bold", opacity: 0.8 }}>
+          📦 Commits: {commitCount}
+        </span>
       </div>
 
       <div className={styles.right}>
