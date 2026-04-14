@@ -5,6 +5,29 @@ import { client } from "../client";
 import BlogCard from "../components/BlogCard/BlogCard";
 import styles from "./Read.module.css";
 
+// 1. Import PortableText and the Syntax Highlighter tools
+import { PortableText } from '@portabletext/react';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+// You can change 'vscDarkPlus' to other themes like 'atomDark' or 'dracula' later!
+import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
+
+// 2. Define how custom blocks (like 'code') should look
+const myPortableTextComponents = {
+  types: {
+    code: ({ value }) => (
+      <div style={{ margin: '2rem 0', borderRadius: '8px', overflow: 'hidden' }}>
+        <SyntaxHighlighter
+          language={value.language || 'text'}
+          style={vscDarkPlus}
+          customStyle={{ padding: '1.5rem', fontSize: '0.95rem' }}
+        >
+          {value.code}
+        </SyntaxHighlighter>
+      </div>
+    ),
+  },
+};
+
 export default function Read() {
   const { slug } = useParams();
   const [post, setPost] = useState(null);
@@ -12,7 +35,6 @@ export default function Read() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // 1. Fetch the specific post and a few suggestions
     const query = `{
       "currentPost": *[_type == "post" && slug.current == $slug][0] {
         _id,
@@ -41,7 +63,6 @@ export default function Read() {
         setLoading(false);
         window.scrollTo(0, 0);
 
-        // THE NEW API CALL!
         if (data.currentPost && data.currentPost._id) {
           fetch("/api/increment-views", {
             method: "POST",
@@ -73,13 +94,18 @@ export default function Read() {
         <div className={styles.meta}>
           {post.category && <span className={styles.tag}>{post.category}</span>}
           <span>{new Date(post.publishedAt).toLocaleDateString()}</span>
-          {/* We show the views + 1 locally so the user instantly sees their own view counted */}
           <span>👁 {(post.views || 0) + 1} views</span>
         </div>
 
         <h1 className={styles.postTitle}>{post.title}</h1>
 
-        <div className={styles.content}>{post.bodyText}</div>
+        <div className={styles.content}>
+          {/* 3. Swap the raw text string for the PortableText component */}
+          <PortableText 
+            value={post.body} 
+            components={myPortableTextComponents} 
+          />
+        </div>
       </article>
 
       <section className={styles.otherPosts}>
