@@ -1,4 +1,5 @@
 # ⚡️ nicheFiles | Modern React + Sanity Blog
+<img width="1898" height="864" alt="image" src="https://github.com/user-attachments/assets/1ee58697-4ba9-466f-838b-226334ee813d" />
 
 A lightning-fast, custom-built personal blog template powered by React, Vite, Sanity.io (Headless CMS), and Vercel Serverless Functions. 
 
@@ -30,7 +31,6 @@ If you want to fork this project and use it as your own blog, follow these steps
 ```bash
 git clone [https://github.com/ekrishnakishor/nichefiles.git](https://github.com/ekrishnakishor/nichefiles.git)
 cd YOUR_REPO_NAME
-<img width="1898" height="864" alt="image" src="https://github.com/user-attachments/assets/1ee58697-4ba9-466f-838b-226334ee813d" />
 
 ```
 
