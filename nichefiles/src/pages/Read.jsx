@@ -1,17 +1,13 @@
-// src/pages/Read.jsx
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { client } from "../client";
 import BlogCard from "../components/BlogCard/BlogCard";
 import styles from "./Read.module.css";
-
-// 1. Import PortableText and the Syntax Highlighter tools
 import { PortableText } from '@portabletext/react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-// You can change 'vscDarkPlus' to other themes like 'atomDark' or 'dracula' later!
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
-// 2. Define how custom blocks (like 'code') should look
+
 const myPortableTextComponents = {
   types: {
     code: ({ value }) => (

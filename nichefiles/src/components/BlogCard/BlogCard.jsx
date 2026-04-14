@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './BlogCard.module.css';
 
-// 1. Add 'onReadMore' to the list of props here
+
 const BlogCard = ({ title, excerpt, category, views, words, onReadMore }) => {
   return (
     <div className={styles.card}>

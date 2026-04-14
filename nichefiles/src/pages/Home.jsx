@@ -1,4 +1,3 @@
-// src/pages/Home.jsx
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { client } from '../client';
@@ -49,13 +48,21 @@ export default function Home() {
   const latestPost = posts[0];
   const gridPosts = displayedPosts;
 
+  // --- TRUNCATION LOGIC ---
+  // If the title exists and is longer than 60 characters, cut it and add "..."
+  const displayTitle = latestPost?.title?.length > 60 
+    ? latestPost.title.substring(0, 60) + '...' 
+    : latestPost?.title;
+
   return (
     <div>
       {/* GLOBAL HERO BANNER */}
       {latestPost && (
         <section className={styles.heroSection}>
           <div className={styles.latestIndicator}>⚡️ Latest</div>
-          <h1 className={styles.heroTitle}>{latestPost.title}</h1>
+          
+          {/* Using the truncated title here */}
+          <h1 className={styles.heroTitle}>{displayTitle}</h1>
           
           {/* Simply Navigate on Click */}
           <button 
