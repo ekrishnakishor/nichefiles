@@ -8,7 +8,6 @@ import { codeInput } from '@sanity/code-input' // <-- Add this import
 export default defineConfig({
   name: 'default',
   title: 'nichefiles-studio',
-
   projectId: 'loxotint', // (This will be auto-filled for you)
   dataset: 'production',
 
