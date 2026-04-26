@@ -5,7 +5,8 @@ A lightning-fast, custom-built personal blog template powered by React, Vite, Sa
 
 This project was built to provide a seamless writing experience without the bloat of a traditional backend. It features a completely custom frontend, real-time GitHub commit tracking, and a secure serverless architecture for live view counters.
 
-![Live Demo](https://nichefiles.vercel.app/) ## ✨ Key Features
+![Live Demo(https://nichefiles.vercel.app/)] 
+## ✨ Key Features
 
 * **Headless CMS:** Content is managed via a fully customized Sanity Studio, complete with a rich-text editor and syntax highlighting for code blocks.
 * **Secure Serverless View Counter:** Uses Vercel Serverless API routes (`/api`) to securely increment page views in the Sanity database without exposing secret API tokens to the frontend browser.
