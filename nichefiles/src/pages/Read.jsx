@@ -3,19 +3,20 @@ import { useParams, Link } from "react-router-dom";
 import { client } from "../client";
 import BlogCard from "../components/BlogCard/BlogCard";
 import styles from "./Read.module.css";
-import { PortableText } from '@portabletext/react';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
-
+import { PortableText } from "@portabletext/react";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 const myPortableTextComponents = {
   types: {
     code: ({ value }) => (
-      <div style={{ margin: '2rem 0', borderRadius: '8px', overflow: 'hidden' }}>
+      <div
+        style={{ margin: "2rem 0", borderRadius: "8px", overflow: "hidden" }}
+      >
         <SyntaxHighlighter
-          language={value.language || 'text'}
+          language={value.language || "text"}
           style={vscDarkPlus}
-          customStyle={{ padding: '1.5rem', fontSize: '0.95rem' }}
+          customStyle={{ padding: "1.5rem", fontSize: "0.95rem" }}
         >
           {value.code}
         </SyntaxHighlighter>
@@ -36,6 +37,7 @@ export default function Read() {
         _id,
         title,
         publishedAt,
+        _createdAt,
         "category": category->title,
         body,
         "bodyText": pt::text(body),
@@ -47,7 +49,8 @@ export default function Read() {
         "slug": slug.current,
         "category": category->title,
         "bodyText": pt::text(body),
-        views
+        views,
+        _createdAt
       }
     }`;
 
@@ -89,17 +92,24 @@ export default function Read() {
       <article className={styles.article}>
         <div className={styles.meta}>
           {post.category && <span className={styles.tag}>{post.category}</span>}
-          <span>{new Date(post.publishedAt).toLocaleDateString()}</span>
+          <span>
+            {new Intl.DateTimeFormat("en-IN", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+              timeZone: "Asia/Kolkata",
+            }).format(new Date(post.publishedAt || post._createdAt))}
+          </span>
+
           <span>👁 {(post.views || 0) + 1} views</span>
         </div>
 
         <h1 className={styles.postTitle}>{post.title}</h1>
 
         <div className={styles.content}>
-          {/* 3. Swap the raw text string for the PortableText component */}
-          <PortableText 
-            value={post.body} 
-            components={myPortableTextComponents} 
+          <PortableText
+            value={post.body}
+            components={myPortableTextComponents}
           />
         </div>
       </article>
